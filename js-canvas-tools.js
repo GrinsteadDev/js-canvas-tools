@@ -1,5 +1,12 @@
 function importModule() {
+    var httpReq = new XMLHttpRequest();
 
+    httpReq.onload = function () {
+        console.log(httpReq.response);
+    }
+    httpReq.open('GET', 'https://github.com/GrinsteadDev/html5canvas-shapes-ui.git/main.js');
+    httpReq.responseType = responseType | importModule.responseType.arrayBuffer;
+    httpReq.send();
 }
 
 Object.defineProperty(importModule, 'responseType', {
@@ -13,3 +20,5 @@ Object.defineProperty(importModule, 'responseType', {
         msStream: 'ms-stream'
     }
 });
+
+importModule();
