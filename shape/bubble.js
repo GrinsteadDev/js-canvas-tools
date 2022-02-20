@@ -1,3 +1,5 @@
+import { BoundingRect } from "../objects/boundingrect.js";
+
 /**
  * Bubble Module
  * @class
@@ -7,10 +9,11 @@
  * @param {number} radius 
  */
 function Bubble(ctx, x, y, radius) {
-    this.canvasCtx = ctx;
+    this.canvasCtx = this.ctx = ctx;
     this.x = x;
     this.y = y;
     this.radius = radius;
+    this.boundingRect = new BoundingRect(x - radius, y - radius, radius + radius, radius + radius);
 }
 
 //window.jsCanvasTools.Bubble = Bubble

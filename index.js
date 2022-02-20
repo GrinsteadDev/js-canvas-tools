@@ -23,10 +23,10 @@ window.jsCanvasTools = jsCanvasTools = {
  * Numbers are rounded to a whole number/integer as a way to avoid partial frame address in canvas.
  */
 jsCanvasTools.canvasWorker =  function() {
-    this.background = document.createElement('canvas');
-    this.backgroundCtx = this.background.getContext('2d');
-    this.userSpc = document.createElement('canvas');
-    this.userSpcCtx = this.userSpc.getContext('2d');
+    this.background = this.bg = document.createElement('canvas');
+    this.backgroundCtx = this.bgCtx = this.bg.getContext('2d');
+    this.userInterface = this.ui = document.createElement('canvas');
+    this.userInterfaceCtx = this.uiCtx = this.ui.getContext('2d');
     this.constantSpc = document.createElement('canvas');
     this.constantSpcCtx = this.constantSpc.getContext('2d');
 
@@ -36,6 +36,40 @@ jsCanvasTools.canvasWorker =  function() {
         background: 60,
         user: 60,
         constant: 60
+    };
+
+    var canvasCache = {
+        canvas: document.createElement('canvas'),
+        get ctx() {
+            return this.canvas.getContext('2d');
+        }
+    };
+
+    canvasCache.items = {
+        /**
+         * Add an item to the item collection using the specified key.
+         * Each of these items represents the coordinates of the cached image.
+         * @param {string} key - the key to be associated with the item
+         * @param {object} obj - an object containing the draw instruction under the method
+         *      'draw()', a public CanvasRenderingContext2D name 'ctx' object, and a boundingRect
+         *      object similar to the one available on html elements 'getBoundingClientRect()'. 
+         *      It will not affect the original object supplied
+         */
+        add: function (key, obj) {
+            if (this.hasOwnProperty(key)) {
+                throw 'Duplicate Keys are not Allowed';
+            } else {
+                this[key] = {};
+                let temp = JSON.parse(JSON.stringify(obj));
+                temp.ctx = canvasCache.ctx;
+            }
+        },
+        get count() {
+            return Object.keys(this).length;
+        },
+        get length() {
+            return this.count;
+        }
     };
 
     /**
@@ -55,7 +89,7 @@ jsCanvasTools.canvasWorker =  function() {
         }
     };
 
-
+    
 
 }();
 
