@@ -27,15 +27,15 @@ jsCanvasTools.canvasWorker =  function() {
     this.backgroundCtx = this.bgCtx = this.bg.getContext('2d');
     this.userInterface = this.ui = document.createElement('canvas');
     this.userInterfaceCtx = this.uiCtx = this.ui.getContext('2d');
-    this.constantSpc = document.createElement('canvas');
-    this.constantSpcCtx = this.constantSpc.getContext('2d');
+    this.constantAnimation = this.cA = document.createElement('canvas');
+    this.constantAnimationCtx = this.cACtx = this.cA.getContext('2d');
 
     const now = performance.now;
     const rnd = jsCanvasTools.round;
     var fps = {
         background: 60,
-        user: 60,
-        constant: 60
+        userInterface: 60,
+        constantAnimation: 60
     };
 
     var canvasCache = {
@@ -73,7 +73,13 @@ jsCanvasTools.canvasWorker =  function() {
     };
 
     /**
-     * @param {number} rate - the desired frame rate defaults to 60 fps.
+     * @param {any} rate - the desired frame rate defaults to 60 fps.
+     *      accepts a single number, an array of numbers or and object
+     *      {
+     *          background,
+     *          userInterface,
+     *          constantAnimation
+     *      }
      */
     this.setFrameRate = this.setFps = function (rate) {
         if(Array.isArray(rate)) {
@@ -187,11 +193,8 @@ var test = new jsCanvasTools.ModuleLoader();
 
 test.loadObject('Bubble').then(
     function () {
-        var b = new jsCanvasTools.Bubble(document.getElementById("testCanvas").getContext("2d"), 100, 200, 120);
-        console.log(b);
+        window._b = new jsCanvasTools.Bubble(document.getElementById("testCanvas").getContext("2d"), 100, 200, 120);
     }
 );
-
-console.log("runningAFter");
 
 console.log(test);
