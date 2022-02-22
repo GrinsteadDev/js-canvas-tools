@@ -8,15 +8,15 @@
 *   @param {Function} onChange: an onChange event to update values 
 */
 function BoundingRect(x, y, width, height, onChange){
-    x = (x !== null)? parseFloat(x) : null;
-    y = (y !== null)? parseFloat(y) : null;
-    width = (width !== null)? parseFloat(width) : null;
-    height = (height !== null)? parseFloat(height) : null;
+    x = (x !== null)? parseInt(x) : null;
+    y = (y !== null)? parseInt(y) : null;
+    width = (width !== null)? parseInt(width) : null;
+    height = (height !== null)? parseInt(height) : null;
     
     Object.defineProperty(this, "x", {
         get: function() { return x; },
         set: function(val) {
-            x = (val !== null)? parseFloat(val) : null;
+            x = (val !== null)? parseInt(val) : null;
             onChange({
                 attribute: 'x',
                 value: x
@@ -27,7 +27,7 @@ function BoundingRect(x, y, width, height, onChange){
     Object.defineProperty(this, "y", {
         get: function() { return y; },
         set: function(val) {
-            y = (val !== null)? parseFloat(val) : null;
+            y = (val !== null)? parseInt(val) : null;
             onChange({
                 attribute: 'y',
                 value: y
@@ -38,7 +38,7 @@ function BoundingRect(x, y, width, height, onChange){
     Object.defineProperty(this, "width", {
         get: function() { return width; },
         set: function(val) {
-            width = (val !== null)? parseFloat(val) : null;
+            width = (val !== null)? parseInt(val) : null;
             onChange({
                 attribute: 'width',
                 value: width
@@ -49,7 +49,7 @@ function BoundingRect(x, y, width, height, onChange){
     Object.defineProperty(this, "height", {
         get: function() { return height; },
         set: function(val) {
-            height = (val !== null)? parseFloat(val) : null;
+            height = (val !== null)? parseInt(val) : null;
             onChange({
                 attribute: 'height',
                 value: height

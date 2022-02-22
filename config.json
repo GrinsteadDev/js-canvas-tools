@@ -1,7 +1,7 @@
 {
     "objects": {
         "Bubble" : {
-            "module": "http:\/\/localhost:8080\/js-canvas-tools\/shape\/bubble.js",
+            "module": ".\/shape\/bubble.js",
             "action": "import"
         }
     }
