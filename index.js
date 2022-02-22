@@ -336,27 +336,3 @@ Object.defineProperty(jsCanvasTools.ModuleLoader, 'loadObject',{
     },
     enumerable: false
 });
-
-/**
- * Example and test case section
- */
-var test = jsCanvasTools.ModuleLoader;
-
-test.loadObject('Bubble').then(
-    function () {
-        jsCanvasTools.canvasWorker.setParentElement(document.getElementById("background"));
-        let can = jsCanvasTools.canvasWorker.bg;
-        for(let i = 0; i < 250; i++) {
-            let x = jsCanvasTools.randomMinMax(50, can.width - 50);
-            let y = jsCanvasTools.randomMinMax(50, can.height - 50);
-            let r = jsCanvasTools.randomMinMax(10, 60);
-            let _b = new jsCanvasTools.Bubble(null, x, y, r);
-            _b.setBackgroundColor('white');
-            jsCanvasTools.canvasWorker.addToConstantAnimation(_b);
-        }
-        jsCanvasTools.canvasWorker.startAnimation();
-        //console.log(_b);
-    }
-);
-
-console.log(test);
