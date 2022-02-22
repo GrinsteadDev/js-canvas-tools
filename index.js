@@ -316,7 +316,7 @@ jsCanvasTools.ModuleLoader = new function () {
 }();
 
 Object.defineProperty(jsCanvasTools.ModuleLoader, 'config', {
-    value: jsCanvasTools.loadFile('.\/config.json', jsCanvasTools.loadFile.returnType.json)
+    value: jsCanvasTools.loadFile('https:\/\/grinsteaddev.github.io\/js-canvas-tools\/config.json', jsCanvasTools.loadFile.returnType.json)
 });
 
 Object.defineProperty(jsCanvasTools.ModuleLoader, 'loadObject',{
