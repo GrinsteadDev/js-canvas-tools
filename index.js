@@ -156,7 +156,7 @@ jsCanvasTools.canvasWorker = new  function() {
     const bgCol = [];
     const uiCol = [];
     const cACol = [];
-    const fpsWorker = new Worker(config.workers['fps-worker']);
+    const fpsWorker = new Worker(config.root + config.workers['fps-worker']);
     const drawAll = function () {
         let len = Math.max(bgCol.length, uiCol.length, cACol.length);
         me.bgCtx.clearRect(0, 0, me.bg.width, me.bg.height);
