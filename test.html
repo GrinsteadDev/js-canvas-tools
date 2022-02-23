@@ -15,7 +15,7 @@
                 jsCanvasTools.ModuleLoader.loadObject('Bubble').then(
                     function () {
                         let can = jsCanvasTools.canvasWorker.bg;
-                        window.setTimeout(()=>{ addBubbleTimeout(0, 250, can); }, 0);
+                        window.setTimeout(()=>{ addBubbleTimeout(0, 1000, can); }, 0);
                         jsCanvasTools.canvasWorker.startAnimation();
                     }
                 );
