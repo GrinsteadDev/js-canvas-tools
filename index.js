@@ -157,6 +157,7 @@ jsCanvasTools.canvasWorker = new  function() {
     const uiCol = [];
     const cACol = [];
     const fpsWorker = new Worker(config.root + config.workers['fps-worker']);
+
     const drawAll = function () {
         let len = Math.max(bgCol.length, uiCol.length, cACol.length);
         me.bgCtx.clearRect(0, 0, me.bg.width, me.bg.height);
@@ -170,9 +171,24 @@ jsCanvasTools.canvasWorker = new  function() {
         if(animate) { window.requestAnimationFrame(drawAll); }
     };
 
-    var bgInterval;
-    var uiInterval;
-    var cAInterval;
+    const bgUpdate = function () {
+        for(let i = 0; i < bgCol.length; i++){
+            bgCol[i].update();
+        }
+    };
+    
+    const uiUpdate = function () {
+        for(let i = 0; i < uiCol.length; i++){
+            uiCol[i].update();
+        }
+    };
+
+    const cAUpdate = function () {
+        for(let i = 0; i < cACol.length; i++){
+            cACol[i].update();
+        }
+    };
+
     var animate;
     var fps = {
         background: 60,
@@ -222,6 +238,10 @@ jsCanvasTools.canvasWorker = new  function() {
         } else {
             fps.background = fps.user = fps.constant = rate? rnd(rate) : 60;
         }
+        fpsWorker.postMessage({
+            type: 'set-fps',
+            value: fps
+        });
     };
 
     this.setParentElement = function (element) {
@@ -251,31 +271,9 @@ jsCanvasTools.canvasWorker = new  function() {
     };
 
     this.startAnimation = function() {
-
-        bgInterval = window.setInterval(
-            function () {
-                for(let i = 0; i < bgCol.length; i++){
-                    bgCol[i].update();
-                }
-            },
-            rnd(1000 / fps.background)
-        );
-        uiInterval = window.setInterval(
-            function () {
-                for(let i = 0; i < uiCol.length; i++){
-                    uiCol[i].update();
-                }
-            },
-            rnd(1000 / fps.userInterface)
-        );
-        cAInterval = window.setInterval(
-            function () {
-                for(let i = 0; i < cACol.length; i++){
-                    cACol[i].update();
-                }
-            },
-            rnd(1000 / fps.constantAnimation)
-        );
+        fpsWorker.postMessage({
+            type: 'start'
+        });
         animate = true;
         window.requestAnimationFrame(drawAll);
     };
@@ -304,13 +302,30 @@ jsCanvasTools.canvasWorker = new  function() {
     };
 
     this.stopAnimation = function() {
-        window.clearInterval(bgInterval);
-        window.clearInterval(uiInterval);
-        window.clearInterval(cAInterval);
+        fpsWorker.postMessage({
+            type: "stop"
+        });
         animate = false;
     };
 
-    console.log('running');
+    fpsWorker.onmessage = function (e) {
+        let data = e.data;
+        switch(data.type) {
+            case 'update':
+                if (data.value == "background") {
+                    bgUpdate();
+                }
+                if (data.value == "user-interface") {
+                    uiUpdate();
+                }
+                if (data.value == "constant-animation") {
+                    cAUpdate();
+                }
+                break;
+        }
+    };
+
+    this.setFps(fps);
 }();
 
 jsCanvasTools.ModuleLoader = new function () {
