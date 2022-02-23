@@ -229,14 +229,14 @@ jsCanvasTools.canvasWorker = new  function() {
     this.setFrameRate = this.setFps = function (rate) {
         if(Array.isArray(rate)) {
             fps.background = rate[0]? rnd(rate[0]) : 60;
-            fps.user = rate[1]? rnd(rate[1]) : 60;
-            fps.constant = rate[2]? rnd(rate[2]) : 60;
+            fps.userInterface = rate[1]? rnd(rate[1]) : 60;
+            fps.constantAnimation = rate[2]? rnd(rate[2]) : 60;
         } else if (typeof rate === 'object' && rate !== null) {
             fps.background = rate.background? rnd(rate.background) : 60;
-            fps.user = rate.user? rnd(rate.user) : 60;
-            fps.constant = rate.constant? rnd(rate.constant) : 60;
+            fps.userInterface = rate.userInterface? rnd(rate.userInterface) : 60;
+            fps.constantAnimation = rate.constantAnimation? rnd(rate.constantAnimation) : 60;
         } else {
-            fps.background = fps.user = fps.constant = rate? rnd(rate) : 60;
+            fps.background = fps.userInterface = fps.constantAnimation = rate? rnd(rate) : 60;
         }
         fpsWorker.postMessage({
             type: 'set-fps',
