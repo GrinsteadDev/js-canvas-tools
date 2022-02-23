@@ -328,9 +328,6 @@ Object.defineProperty(jsCanvasTools.ModuleLoader, 'loadObject',{
             if (temp.action == 'import') {
                 var mod = await import(temp.module);
                 jsCanvasTools[name] = mod[name];
-            } else if (temp.action == 'run') {
-                var js = jsCanvasTools.loadFile(temp.module);
-                eval(js);
             }
         }
     },

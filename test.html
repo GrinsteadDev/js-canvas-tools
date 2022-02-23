@@ -7,31 +7,41 @@
              * Example and test case section
              */
             window.addEventListener('load', () => {
-                var test = jsCanvasTools.ModuleLoader;
+                setup();
+            });
 
-                test.loadObject('Bubble').then(
+            function setup() {
+                jsCanvasTools.canvasWorker.setParentElement(document.getElementById("background"));
+                jsCanvasTools.ModuleLoader.loadObject('Bubble').then(
                     function () {
-                        jsCanvasTools.canvasWorker.setParentElement(document.getElementById("background"));
                         let can = jsCanvasTools.canvasWorker.bg;
-                        for(let i = 0; i < 250; i++) {
-                            let x = jsCanvasTools.randomMinMax(50, can.width - 50);
-                            let y = jsCanvasTools.randomMinMax(50, can.height - 50);
-                            let r = jsCanvasTools.randomMinMax(10, 60);
-                            let _b = new jsCanvasTools.Bubble(null, x, y, r);
-                            _b.setBackgroundColor('white');
-                            jsCanvasTools.canvasWorker.addToConstantAnimation(_b);
-                        }
+                        window.setTimeout(()=>{ addBubbleTimeout(0, 250, can); }, 0);
                         jsCanvasTools.canvasWorker.startAnimation();
-                        //console.log(_b);
                     }
                 );
-
-                console.log(test);
-            });
+                function addBubbleTimeout(idx, len, can) {
+                    let x = jsCanvasTools.randomMinMax(50, can.width - 50);
+                    let y = jsCanvasTools.randomMinMax(50, can.height - 50);
+                    let r = jsCanvasTools.randomMinMax(10, 60);
+                    let _b = new jsCanvasTools.Bubble(null, x, y, r);
+                    _b.setBackgroundColor('white');
+                    jsCanvasTools.canvasWorker.addToConstantAnimation(_b);
+                    idx++;
+                    if (idx < len) {
+                        window.setTimeout(
+                            ()=>{
+                                addBubbleTimeout(idx, len, can);
+                            },
+                            0
+                        );
+                    }
+                }
+            }
         </script>
     </head>
     <body>
         <div id="background" style="width: 100vw;height: 100vh;position: absolute;">
         </div>
+        
     </body>
 </html>
