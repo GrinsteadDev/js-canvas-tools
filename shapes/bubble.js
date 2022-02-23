@@ -176,7 +176,7 @@ function Bubble(ctx, x, y, radius, movementRate) {
     }
 
     this.draw = async function () {
-        me.ctx.drawImage(cache.canvas, me.boundingRect.x, me.boundingRect.y);
+        me.ctx.drawImage(cache.canvas, 0, 0, cache.canvas.width, cache.canvas.height, me.boundingRect.x, me.boundingRect.y, me.boundingRect.width, me.boundingRect.height);
     }
 
     this.update = async function () {
