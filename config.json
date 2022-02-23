@@ -1,7 +1,11 @@
 {
+    "root" : "https:\/\/grinsteaddev.github.io\/js-canvas-tools\/",
+    "workers": {
+        "fps-worker": "workers\/fps-worker.js"
+    },
     "objects": {
         "Bubble" : {
-            "module": "https:\/\/grinsteaddev.github.io\/js-canvas-tools\/shapes\/bubble.js",
+            "module": "shapes\/bubble.js",
             "action": "import"
         }
     }
