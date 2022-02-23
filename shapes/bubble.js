@@ -166,20 +166,19 @@ function Bubble(ctx, x, y, radius, movementRate) {
     cache.canvas.height = cache.canvas.width = this.radius + this.radius;
     createCache();
 
-    this.setBackgroundColor = async function (color) {
+    this.setBackgroundColor = function (color) {
         let rgba = standardizeColor(color);
         let colArr = rgba.replace('rgba(','').replace(')','').split(',');
         colArr[3] = 0;
         colorCode = 'rgba(' + colArr.join(',') + ')';
         createCache();
-        
     }
 
-    this.draw = async function () {
+    this.draw = function () {
         me.ctx.drawImage(cache.canvas, 0, 0, cache.canvas.width, cache.canvas.height, me.boundingRect.x, me.boundingRect.y, me.boundingRect.width, me.boundingRect.height);
     }
 
-    this.update = async function () {
+    this.update = function () {
         me.x += xRate;
         me.y += yRate;
         if(me.boundingRect.x + me.boundingRect.width >= me.ctx.canvas.width - abs(xRate) && xRate > 0) {
