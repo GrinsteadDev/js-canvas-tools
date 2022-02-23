@@ -7,6 +7,9 @@
 var bgFps = 60;
 var cAFps = 60;
 var uiFps = 60;
+var bgFpsInterval = 1000 / bgFps;
+var cAFpsInterval = 1000 / cAFps;
+var uiFpsInterval = 1000 / uiFps;
 var bgInterval;
 var uiInterval;
 var cAInterval;
@@ -19,7 +22,7 @@ function Start() {
                 type: "update",
                 value: "background"
             });
-        }, 1000 / bgFps
+        }, bgFpsInterval
     );
     uiInterval = setInterval(
         function () {
@@ -27,7 +30,7 @@ function Start() {
                 type: "update",
                 value: "user-interface"
             });
-        }, 1000 / uiFps
+        }, uiFpsInterval
     );
     cAInterval = setInterval(
         function () {
@@ -35,7 +38,7 @@ function Start() {
                 type: "update",
                 value: "constant-animation"
             });
-        }, 1000 / cAFps
+        }, cAFpsInterval
     );
     isRunning = true;
 }
@@ -51,6 +54,9 @@ function SetFps(obj) {
     bgFps = obj.background? obj.background : bgFps;
     cAFps = obj.constantAnimation? obj.constantAnimation : cAFps;
     uiFps = obj.userInterface? obj.userInterface : uiFps;
+    bgFpsInterval = 1000 / bgFps;
+    cAFpsInterval = 1000 / cAFps;
+    uiFpsInterval = 1000 / uiFps;
     if(isRunning) {
         Stop();
         Start();
