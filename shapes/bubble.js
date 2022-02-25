@@ -64,6 +64,7 @@ function Bubble(ctx, x, y, radius, movementRate) {
     };
 
     const createCache = async function () {
+        cache.clearRect(0, 0, cache.canvas.width, cache.canvas.height);
         for(let i = 0; i < 200; i++) {
             let innerPoint = randomPoint(me.radius, me.radius, me.radius);
             let gradient = cache.createRadialGradient(innerPoint.x, innerPoint.y, 0, me.radius, me.radius, me.radius);
@@ -73,7 +74,6 @@ function Bubble(ctx, x, y, radius, movementRate) {
             gradient.addColorStop(1, colorCode);
     
             cache.beginPath();
-            cache.clearRect(0, 0, cache.canvas.width, cache.canvas.height);
             cache.fillStyle = gradient;
             cache.arc(me.radius, me.radius, me.radius, stAngle, endAngle, true);
             cache.fill();
