@@ -180,7 +180,7 @@ function Bubble(ctx, x, y, radius, movementRate) {
     }
 
     this.draw = function () {
-        me.ctx.drawImage(cache.ctx.canvas, 0, 0, cache.canvas.width, cache.canvas.height, me.boundingRect.x, me.boundingRect.y, me.boundingRect.width, me.boundingRect.height);
+        me.ctx.drawImage(cache.ctx.canvas, 0, 0, cache.ctx.canvas.width, cache.ctx.canvas.height, me.boundingRect.x, me.boundingRect.y, me.boundingRect.width, me.boundingRect.height);
     }
 
     this.update = function () {
