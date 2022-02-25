@@ -26,7 +26,10 @@ function Bubble(ctx, x, y, radius, movementRate) {
         'rgba(247, 237, 255, 0.5)'
     ];
 
-    const cache = document.createElement('canvas').getContext('2d');
+    const cache = {
+        ctx: document.createElement('canvas').getContext('2d'),
+        img: null
+    }
 
     const boundingRect_onChange = function (e) {
         if (e.value === null || isNaN(e.value)) { return; }
@@ -66,18 +69,20 @@ function Bubble(ctx, x, y, radius, movementRate) {
     const createCache = async function () {
         for(let i = 0; i < 1; i++) {
             let innerPoint = randomPoint(me.radius, me.radius, me.radius);
-            let gradient = cache.createRadialGradient(innerPoint.x, innerPoint.y, 0, me.radius, me.radius, me.radius);
+            let gradient = cache.ctx.createRadialGradient(innerPoint.x, innerPoint.y, 0, me.radius, me.radius, me.radius);
     
             gradient.addColorStop(0, colorCode);
             gradient.addColorStop(0.4, colorCol[randomMinMax(0, colorCol.length - 1)]);
             gradient.addColorStop(1, colorCode);
     
-            cache.beginPath();
-            cache.clearRect(0, 0, cache.width, cache.height);
-            cache.fillStyle = gradient;
-            cache.arc(me.radius, me.radius, me.radius, stAngle, endAngle, true);
-            cache.fill();
-            cache.closePath();
+            cache.ctx.beginPath();
+            cache.ctx.clearRect(0, 0, cache.ctx.canvas.width, cache.ctx.canvas.height);
+            cache.ctx.fillStyle = gradient;
+            cache.ctx.arc(me.radius, me.radius, me.radius, stAngle, endAngle, true);
+            cache.ctx.fill();
+            cache.ctx.closePath();
+
+            //cache.img = new Image()
         }
     };
 
@@ -163,7 +168,7 @@ function Bubble(ctx, x, y, radius, movementRate) {
     this.y = x? rnd(y) : null;
     this.radius = radius? rnd(radius) : null;
 
-    cache.canvas.height = cache.canvas.width = this.radius + this.radius;
+    cache.ctx.canvas.height = cache.ctx.canvas.width = this.radius + this.radius;
     createCache();
 
     this.setBackgroundColor = function (color) {
@@ -175,7 +180,7 @@ function Bubble(ctx, x, y, radius, movementRate) {
     }
 
     this.draw = function () {
-        me.ctx.drawImage(cache.canvas, 0, 0, cache.canvas.width, cache.canvas.height, me.boundingRect.x, me.boundingRect.y, me.boundingRect.width, me.boundingRect.height);
+        me.ctx.drawImage(cache.ctx.canvas, 0, 0, cache.canvas.width, cache.canvas.height, me.boundingRect.x, me.boundingRect.y, me.boundingRect.width, me.boundingRect.height);
     }
 
     this.update = function () {
