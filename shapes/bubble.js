@@ -28,23 +28,23 @@ function Bubble(ctx, x, y, radius, movementRate) {
 
     const cache = document.createElement('canvas').getContext('2d');
 
-    const boundingRect_onChange = function (attr) {
-        if (attr.value === null || isNaN(attr.value)) { return; }
-        switch (attr.attribute) {
+    const boundingRect_onChange = function (e) {
+        if (e.value === null || isNaN(e.value)) { return; }
+        switch (e.attribute) {
             case 'x':
-                if (me.x != rnd(attr.value + me.radius)){
-                    me.x = rnd(attr.value + me.radius);
+                if (me.x != rnd(e.value + me.radius)){
+                    me.x = rnd(e.value + me.radius);
                 }
                 break;
             case 'y':
-                if (me.y != rnd(attr.value + me.radius)){
-                    me.y = rnd(attr.value + me.radius);
+                if (me.y != rnd(e.value + me.radius)){
+                    me.y = rnd(e.value + me.radius);
                 }
                 break;
             case 'width':
             case 'height':
-                if (me.radius != rnd(attr.value / 2)){
-                    me.radius = rnd(attr.value / 2);
+                if (me.radius != rnd(e.value / 2)){
+                    me.radius = rnd(e.value / 2);
                 }
                 break;
         }
@@ -64,7 +64,7 @@ function Bubble(ctx, x, y, radius, movementRate) {
     };
 
     const createCache = async function () {
-        for(let i = 0; i < 200; i++) {
+        for(let i = 0; i < 1; i++) {
             let innerPoint = randomPoint(me.radius, me.radius, me.radius);
             let gradient = cache.createRadialGradient(innerPoint.x, innerPoint.y, 0, me.radius, me.radius, me.radius);
     
