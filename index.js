@@ -1,3 +1,6 @@
+"use strict";
+import { config } from "./config.js";
+import { webglTools } from "./webgl/webgl-tools.js";
 /**
  * jsCanvasTools is a javascript object collection designed to streamline the use and
  * deployment of complex canvas based javascript objects.
@@ -17,72 +20,12 @@ window.jsCanvasTools = jsCanvasTools = {
     round: Math.floor,
     randomMinMax: function (min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
-    }
+    },
+    clamp: function (num, min, max) {
+        return Math.min(Math.max(num, min), max);
+    },
+    webgl: webglTools
 };
-
-/**
- * This function does completes and loads files synchronously as the specified type
- * @param {string} name - the path, it is important to note that relative paths apply
- *      to the document containing the script not the script location
- * @param {number} returnType - a value from -1 to 5 as indicated by the loadFile.returnType
- *      enum.
- * 
- */
- jsCanvasTools.loadFile = function (name, returnType) {
-    var httpReq = new XMLHttpRequest();
-    var out;
-    var parser = new DOMParser();
-
-    httpReq.open('GET', name, false);
-    httpReq.overrideMimeType('text\/plain; charset=x-user-defined');
-    httpReq.send(null);
-    switch (returnType? returnType : jsCanvasTools.loadFile.returnType.default) {
-        case jsCanvasTools.loadFile.returnType.text:
-            out = httpReq.responseText;
-            break;
-        case jsCanvasTools.loadFile.returnType.arrayBuffer:
-            let buff = new ArrayBuffer(httpReq.responseText.length);
-            let buffView = new Uint8Array(buff);
-            for (let i = 0, strLen = httpReq.responseText.length; i < strLen; i++) {
-                buffView[i] = httpReq.responseText.charCodeAt(i) & 0xff;
-            }
-            out = buff;
-            break;
-        case jsCanvasTools.loadFile.returnType.blob:
-            out = new Blob(
-                [httpReq.response],
-                {
-                    type: httpReq.getResponseHeader('content-type')
-                }
-            );
-            break;
-        case jsCanvasTools.loadFile.returnType.document:
-            out = parser.parseFromString(httpReq.responseText, 'text\/html');
-            break;
-        case jsCanvasTools.loadFile.returnType.json:
-            out = JSON.parse(httpReq.responseText);
-            break;
-        case jsCanvasTools.loadFile.returnType.xml:
-            out = parser.parseFromString(httpReq.responseText, 'text\/xml');
-            break;
-        default:
-            out = httpReq.response;
-            break;
-    }
-    return out;
-}
-
-Object.defineProperty(jsCanvasTools.loadFile, 'returnType', {
-    value: {
-        default: -1,
-        text: 0,
-        arrayBuffer: 1,
-        blob: 2,
-        document: 3,
-        json: 4,
-        xml: 5
-    }
-});
 
 /**
  * A tool designed to cache frequently used canvas elements as well as provide different
@@ -150,7 +93,7 @@ jsCanvasTools.canvasWorker = new  function() {
     });
 
     const me = this;
-    const config = jsCanvasTools.loadFile('https:\/\/grinsteaddev.github.io\/js-canvas-tools\/config.json', jsCanvasTools.loadFile.returnType.json)
+    const config = config;
     const now = performance.now;
     const rnd = jsCanvasTools.round;
     const bgCol = [];
@@ -327,27 +270,3 @@ jsCanvasTools.canvasWorker = new  function() {
 
     this.setFps(fps);
 }();
-
-jsCanvasTools.ModuleLoader = new function () {
-
-}();
-
-Object.defineProperty(jsCanvasTools.ModuleLoader, 'config', {
-    value: jsCanvasTools.loadFile('https:\/\/grinsteaddev.github.io\/js-canvas-tools\/config.json', jsCanvasTools.loadFile.returnType.json),
-    writable: false
-});
-
-Object.defineProperty(jsCanvasTools.ModuleLoader, 'loadObject',{
-    value: async function (name) {
-        if (window.hasOwnProperty(name)) { return; }
-        var objs = this.config['objects'];
-        if(objs.hasOwnProperty(name)) {
-            let temp = objs[name];
-            if (temp.action == 'import') {
-                var mod = await import(this.config.root + temp.module);
-                jsCanvasTools[name] = mod[name];
-            }
-        }
-    },
-    enumerable: false
-});
