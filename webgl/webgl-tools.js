@@ -55,6 +55,7 @@ const webglTools = {
      * @method
      * @param {WebGL2RenderingContext} gl 
      * @param {WebGLProgram} program 
+     * @returns {Object}
      */
     createUniformSetters: function (gl, program) {
         /**
@@ -148,6 +149,38 @@ const webglTools = {
             setters[name] = createUniformSetter(program, uniformInfo);
         }
         return setters;
+    },
+    /**
+     * Creates an object containing all the attribute setters
+     * @method
+     * @param {WebGL2RenderingContext} gl 
+     * @param {WebGLProgram} program 
+     * @returns {object}
+     */
+    createAttributeSetters: function (gl, program) {
+        /**
+         * 
+         * @param {WebGLProgram} program 
+         * @param {WebGLActiveInfo} uniformInfo 
+         * @returns {Function}
+         */
+        function createAttributeSetter(program, attrInfo) {
+            var location = gl.getAttribLocation(program, attrInfo.name);
+            return function(buffer, size, type = gl.FLOAT, normalize = false, stride = 0, offset = 0) {
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.enableVertexAttribArray(location);
+                gl.vertexAttribPointer(location, size, type, normalize, stride, offset);
+            };
+        }
+        var attr = {};
+        let len = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES);
+        for (let i = 0; i < len; i++) {
+            var attrInfo = gl.getActiveAttrib(program, i);
+            if (!attrInfo) { break; }
+            let name = attrInfo.name;
+            attr[name] = createAttributeSetter(program, attrInfo);
+        }
+        return attr;
     },
     Mat4: m4,
     Mat3: m3,
