@@ -50,8 +50,107 @@ const webglTools = {
         }
         return p;
     },
-    mat4: m4,
-    mat3: m3,
+    /**
+     * Creates an object containing all the uniform setters
+     * @method
+     * @param {WebGL2RenderingContext} gl 
+     * @param {WebGLProgram} program 
+     */
+    createUniformSetters: function (gl, program) {
+        /**
+         * 
+         * @param {WebGLProgram} program 
+         * @param {WebGLActiveInfo} uniformInfo 
+         * @returns {Function}
+         */
+        function createUniformSetter(program, uniformInfo) {
+            var location = gl.getUniformLocation(program, uniformInfo.name);
+            var type = uniformInfo.type;
+            var isArray = (uniformInfo.size > 1) && (uniformInfo.name.substring(uniformInfo.name.length - 3) === '[0]');
+            var out = null;
+
+            switch (type) {
+                case gl.FLOAT:
+                    out = function (val) {
+                        gl.uniform1f(location, val);
+                    }
+                    break;
+                case gl.FLOAT_VEC2:
+                    out = function (val) {
+                        gl.uniform2fv(location, val);
+                    }
+                    break;
+                case gl.FLOAT_VEC3:
+                    out = function (val) {
+                        gl.uniform3fv(location, val);
+                    }
+                    break;
+                case gl.FLOAT_VEC4:
+                    out = function (val) {
+                        gl.uniform3fv(location, val);
+                    }
+                    break;
+                case gl.INT: case gl.BOOL:
+                    if (isArray) {
+                        out = function (val) {
+                            gl.uniform1iv(location, val);
+                        }
+                    } else {
+                        out = function (val) {
+                            gl.uniform1i(location, val);
+                        }
+                    }
+                    break;
+                case gl.INT_VEC2: case gl.BOOL_VEC2:
+                    out = function (val) {
+                        gl.uniform2iv(location, val);
+                    }
+                    break;
+                case gl.INT_VEC3: case gl.BOOL_VEC3:
+                    out = function (val) {
+                        gl.uniform3iv(location, val);
+                    }
+                    break;
+                case gl.INT_VEC4: case gl.BOOL_VEC4:
+                    out = function (val) {
+                        gl.uniform4iv(location, val);
+                    }
+                    break;
+                case gl.FLOAT_MAT2:
+                    out = function (val) {
+                        gl.uniformMatrix2fv(location, val);
+                    }
+                    break;
+                case gl.FLOAT_MAT3:
+                    out = function (val) {
+                        gl.uniformMatrix3fv(location, val);
+                    }
+                    break;
+                case gl.FLOAT_MAT4:
+                    out = function (val) {
+                        gl.uniformMatrix4fv(location, val);
+                    }
+                    break;
+                case gl.SAMPLER_2D: case gl.SAMPLER_CUBE:
+                    /* add code */
+                    break;
+                default:
+                    break;
+            }
+            return out;
+        }
+        var setters = {};
+        let len = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
+        for (let i = 0; i < len; i++) {
+            var uniformInfo = gl.getActiveUniform(program, i);
+            if (!uniformInfo) { break; }
+            let name = uniformInfo.name.substring(uniformInfo.name.length - 3) === '[0]'? uniformInfo.name.substring(0, uniformInfo.name.length - 3) : uniformInfo.name;
+            setters[name] = createUniformSetter(program, uniformInfo);
+        }
+        return setters;
+    },
+    Mat4: m4,
+    Mat3: m3,
     Vec4: v4,
     Vec3: v3,
     Vec2: v2,
