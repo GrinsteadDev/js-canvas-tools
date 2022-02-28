@@ -1,42 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="https://grinsteaddev.github.io/js-canvas-tools/index.js" defer></script>
+        <script src="./index.js" type="module" defer></script>
         <script>
             /**
              * Example and test case section
              */
             window.addEventListener('load', () => {
-                setup();
+                main();
             });
 
-            function setup() {
-                jsCanvasTools.canvasWorker.setParentElement(document.getElementById("background"));
-                jsCanvasTools.ModuleLoader.loadObject('Bubble').then(
-                    function () {
-                        let can = jsCanvasTools.canvasWorker.bg;
-                        window.setTimeout(()=>{ addBubbleTimeout(0, 200, can); }, 0);
-                        jsCanvasTools.canvasWorker.startAnimation();
-                    }
-                );
-                function addBubbleTimeout(idx, len, can) {
-                    let x = jsCanvasTools.randomMinMax(50, can.width - 50);
-                    let y = jsCanvasTools.randomMinMax(50, can.height - 50);
-                    let r = jsCanvasTools.randomMinMax(10, 60);
-                    let _b = new jsCanvasTools.Bubble(null, x, y, r);
-                    _b.setBackgroundColor('SteelBlue');
-                    //_b.setBackgroundColor('Black');
-                    jsCanvasTools.canvasWorker.addToConstantAnimation(_b);
-                    idx++;
-                    if (idx < len) {
-                        window.setTimeout(
-                            ()=>{
-                                addBubbleTimeout(idx, len, can);
-                            },
-                            0
-                        );
-                    }
-                }
+            function main() {
+                
             }
         </script>
     </head>

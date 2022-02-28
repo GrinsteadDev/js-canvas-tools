@@ -19,12 +19,12 @@ class m4 {
         this[3] = n41; this[7] = n42; this[11] = n43; this[15] = n44;
     }
     identity() {
-        this.set(
+        this.fromArray([
             1,0,0,0,
             0,1,0,0,
             0,0,1,0,
             0,0,0,1
-        )
+        ]);
     }
     copy() {
         return new this.constructor().fromArray(this.toArray());

@@ -17,11 +17,11 @@ class m3 {
         this[2] = n31; this[5] = n32; this[8] = n33;
     }
     identity() {
-        this.set(
+        this.fromArray([
             1,0,0,
             0,1,0,
             0,0,1
-        )
+        ]);
     }
     copy() {
         return new this.constructor().fromArray(this.toArray());

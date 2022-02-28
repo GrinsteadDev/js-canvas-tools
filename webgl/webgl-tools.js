@@ -1,10 +1,12 @@
 "use strict";
 
-import { m3 } from "./m3";
-import { m4 } from "./m4";
-import { v2 } from "./v2";
-import { v3 } from "./v3";
-import { v4 } from "./v4";
+import { m2 } from "./m2.js";
+import { m3 } from "./m3.js";
+import { m4 } from "./m4.js";
+import { math } from "./math/math.js";
+import { v2 } from "./v2.js";
+import { v3 } from "./v3.js";
+import { v4 } from "./v4.js";
 
 const webglTools = {
     /**
@@ -55,7 +57,7 @@ const webglTools = {
      * @method
      * @param {WebGL2RenderingContext} gl 
      * @param {WebGLProgram} program 
-     * @returns {Object}
+     * @returns {object}
      */
     createUniformSetters: function (gl, program) {
         /**
@@ -161,7 +163,7 @@ const webglTools = {
         /**
          * 
          * @param {WebGLProgram} program 
-         * @param {WebGLActiveInfo} uniformInfo 
+         * @param {WebGLActiveInfo} attrInfo 
          * @returns {Function}
          */
         function createAttributeSetter(program, attrInfo) {
@@ -182,8 +184,10 @@ const webglTools = {
         }
         return attr;
     },
+    math: math,
     Mat4: m4,
     Mat3: m3,
+    Mat2: m2,
     Vec4: v4,
     Vec3: v3,
     Vec2: v2,

@@ -1,5 +1,5 @@
 "use strict";
-import { config } from "./config.js";
+import { config as cfg } from "./config.js";
 import { webglTools } from "./webgl/webgl-tools.js";
 /**
  * jsCanvasTools is a javascript object collection designed to streamline the use and
@@ -16,6 +16,7 @@ import { webglTools } from "./webgl/webgl-tools.js";
  * this module. Everything else is designed to be loaded on a peruse basis.
  * 
  */
+var jsCanvasTools;
 window.jsCanvasTools = jsCanvasTools = {
     round: Math.floor,
     randomMinMax: function (min, max) { // min and max included 
@@ -93,13 +94,13 @@ jsCanvasTools.canvasWorker = new  function() {
     });
 
     const me = this;
-    const config = config;
+    const config = cfg;
     const now = performance.now;
     const rnd = jsCanvasTools.round;
     const bgCol = [];
     const uiCol = [];
     const cACol = [];
-    const fpsWorker = new Worker(config.root + config.workers['fps-worker']);
+    const fpsWorker = new Worker(config.workers['fps-worker']);
 
     const drawAll = function () {
         let len = Math.max(bgCol.length, uiCol.length, cACol.length);
