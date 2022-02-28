@@ -27,7 +27,7 @@ class m4 {
         )
     }
     copy() {
-        return new this.constructor().set(...this.toArray());
+        return new this.constructor().fromArray(this.toArray());
     }
     toArray(arr = [], offset = 0) {
         arr[offset] = this[0]; arr[offset + 4] = this[4]; arr[offset + 8] = this[8]; arr[offset + 12] = this[12];
