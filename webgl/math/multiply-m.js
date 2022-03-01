@@ -100,7 +100,7 @@ function inverseMx4(m) {
     let m20 = m[8], m21 = m[9], m22 = m[10], m23 = m[11];
     let m30 = m[12], m31 = m[13], m32 = m[14], m33 = m[15];
 
-    /* retrieved from https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix */
+    /* based on https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix */
     let A2323 =  m22 *  m33 -  m23 *  m32;
     let A1323 =  m21 *  m33 -  m23 *  m31;
     let A1223 =  m21 *  m32 -  m22 *  m31;
