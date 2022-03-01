@@ -101,29 +101,29 @@ function inverseMx4(m) {
     let m30 = m[12], m31 = m[13], m32 = m[14], m33 = m[15];
 
     /* retrieved from https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix */
-    let A2323 =  m22 *  m33 -  m23 *  m32 ;
-    let A1323 =  m21 *  m33 -  m23 *  m31 ;
-    let A1223 =  m21 *  m32 -  m22 *  m31 ;
-    let A0323 =  m20 *  m33 -  m23 *  m30 ;
-    let A0223 =  m20 *  m32 -  m22 *  m30 ;
-    let A0123 =  m20 *  m31 -  m21 *  m30 ;
-    let A2313 =  m12 *  m33 -  m13 *  m32 ;
-    let A1313 =  m11 *  m33 -  m13 *  m31 ;
-    let A1213 =  m11 *  m32 -  m12 *  m31 ;
-    let A2312 =  m12 *  m23 -  m13 *  m22 ;
-    let A1312 =  m11 *  m23 -  m13 *  m21 ;
-    let A1212 =  m11 *  m22 -  m12 *  m21 ;
-    let A0313 =  m10 *  m33 -  m13 *  m30 ;
-    let A0213 =  m10 *  m32 -  m12 *  m30 ;
-    let A0312 =  m10 *  m23 -  m13 *  m20 ;
-    let A0212 =  m10 *  m22 -  m12 *  m20 ;
-    let A0113 =  m10 *  m31 -  m11 *  m30 ;
-    let A0112 =  m10 *  m21 -  m11 *  m20 ;
+    let A2323 =  m22 *  m33 -  m23 *  m32;
+    let A1323 =  m21 *  m33 -  m23 *  m31;
+    let A1223 =  m21 *  m32 -  m22 *  m31;
+    let A0323 =  m20 *  m33 -  m23 *  m30;
+    let A0223 =  m20 *  m32 -  m22 *  m30;
+    let A0123 =  m20 *  m31 -  m21 *  m30;
+    let A2313 =  m12 *  m33 -  m13 *  m32;
+    let A1313 =  m11 *  m33 -  m13 *  m31;
+    let A1213 =  m11 *  m32 -  m12 *  m31;
+    let A2312 =  m12 *  m23 -  m13 *  m22;
+    let A1312 =  m11 *  m23 -  m13 *  m21;
+    let A1212 =  m11 *  m22 -  m12 *  m21;
+    let A0313 =  m10 *  m33 -  m13 *  m30;
+    let A0213 =  m10 *  m32 -  m12 *  m30;
+    let A0312 =  m10 *  m23 -  m13 *  m20;
+    let A0212 =  m10 *  m22 -  m12 *  m20;
+    let A0113 =  m10 *  m31 -  m11 *  m30;
+    let A0112 =  m10 *  m21 -  m11 *  m20;
 
-    let det =  m00 * (  m11 * A2323 -  m12 * A1323 +  m13 * A1223 ) 
-        -  m01 * (  m10 * A2323 -  m12 * A0323 +  m13 * A0223 ) 
-        +  m02 * (  m10 * A1323 -  m11 * A0323 +  m13 * A0123 ) 
-        -  m03 * (  m10 * A1223 -  m11 * A0223 +  m12 * A0123 ) ;
+    let det =  m00 * (m11 * A2323 -  m12 * A1323 +  m13 * A1223) 
+            -  m01 * (m10 * A2323 -  m12 * A0323 +  m13 * A0223) 
+            +  m02 * (m10 * A1323 -  m11 * A0323 +  m13 * A0123) 
+            -  m03 * (m10 * A1223 -  m11 * A0223 +  m12 * A0123);
 
     out[0] = (m11 * A2323 -  m12 * A1323 +  m13 * A1223) / det;
     out[1] = -(m01 * A2323 -  m02 * A1323 +  m03 * A1223) / det;
