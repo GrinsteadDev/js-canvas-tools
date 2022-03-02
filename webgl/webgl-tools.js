@@ -168,8 +168,10 @@ const webglTools = {
          */
         function createAttributeSetter(program, attrInfo) {
             var location = gl.getAttribLocation(program, attrInfo.name);
-            return function(buffer, size, type = gl.FLOAT, normalize = false, stride = 0, offset = 0) {
+            return function(data, size, type = gl.FLOAT, normalize = false, stride = 0, offset = 0) {
+                var buffer = gl.createBuffer();
                 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
                 gl.enableVertexAttribArray(location);
                 gl.vertexAttribPointer(location, size, type, normalize, stride, offset);
             };
