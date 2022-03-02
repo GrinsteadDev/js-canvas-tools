@@ -1,7 +1,7 @@
 /**
  * Multiplies two 4x4 matrixes
- * @param {m4} ma 
- * @param {m4} mb 
+ * @param {m4} ma - The Matrix 'a'
+ * @param {m4} mb - The Matrix 'b'
  * @returns {Array}
  */
 function multiplyMx4(ma, mb) {
@@ -38,8 +38,8 @@ function multiplyMx4(ma, mb) {
 }
 /**
  * Multiplies two 3x3 matrixes
- * @param {m3} ma 
- * @param {m3} mb 
+ * @param {m3} ma - The Matrix 'a'
+ * @param {m3} mb - The Matrix 'b'
  * @returns {Array}
  */
 function multiplyMx3(ma, mb) {
@@ -67,8 +67,8 @@ function multiplyMx3(ma, mb) {
 }
 /**
  * Multiplies two 2x2 matrixes
- * @param {m2} ma 
- * @param {m2} mb 
+ * @param {m2} ma - The Matrix 'a'
+ * @param {m2} mb - The Matrix 'b'
  * @returns {Array}
  */
 function multiplyMx2(ma, mb) {
@@ -89,7 +89,7 @@ function multiplyMx2(ma, mb) {
 }
 /**
  * 
- * @param {m4} m 
+ * @param {m4} m - The Matrix
  * @returns {Array}
  */
 function inverseMx4(m) {
@@ -146,7 +146,7 @@ function inverseMx4(m) {
 }
 /**
  * 
- * @param {m3} m 
+ * @param {m3} m - The Matrix
  * @returns {Array}
  */
 function inverseMx3(m) {
@@ -172,7 +172,7 @@ function inverseMx3(m) {
 }
 /**
  * 
- * @param {m2} m 
+ * @param {m2} m - The Matrix
  * @returns {Array}
  */
  function inverseMx2(m) {
