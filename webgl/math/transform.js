@@ -1,13 +1,47 @@
 /**
  * 
- * @param {m4} m 
- * @param {v4} v 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {number} z 
  * @returns {Array}
  */
-function transformMx4Vx4(m, v) {
-    var out = new Array(4);
-
-    return out;
+function translationMx4(x, y, z) {
+    return [
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        x, y, z, 1
+    ];
 }
 
-export { transformMx4Vx4 };
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ * @returns {Array}
+ */
+ function translationMx3(x, y) {
+    return [
+        1, 0, 0,
+        0, 1, 0,
+        x, y, 1
+    ];
+}
+
+/**
+ * 
+ * @param {number} angle in radians 
+ * @returns {Array}
+ */
+function rotationMx3(angle) {
+    var c = Math.cos(angle);
+    var s = Math.cos(angle);
+
+    return [
+        c, -s,  0,
+        s,  c,  0,
+        0,  0,  1
+    ];
+}
+
+export { translationMx4, translationMx3, rotationMx3 };

@@ -2,7 +2,7 @@
 <html>
     <head>
         <script src="./index.js" type="module" defer></script>
-        <script>
+        <script type="text/javascript">
             /**
              * Example and test case section
              */
@@ -11,13 +11,57 @@
             });
 
             function main() {
-                
+                var c = document.getElementById('c');
+                c.width = c.parentElement.clientWidth;
+                c.height = c.parentElement.clientHeight;
+                var gl = c.getContext('webgl');
+
+                var prog = jsCanvasTools.webgl.createProgram(gl, jsCanvasTools.webgl.shaders.default.vertex, jsCanvasTools.webgl.shaders.default.fragment);
+
+                var attrs = jsCanvasTools.webgl.createAttributeSetters(gl, prog);
+
+                var uniforms = jsCanvasTools.webgl.createUniformSetters(gl, prog);
+
+                var positions = new Float32Array([
+                    0.10, 0.20,
+                    0.80, 0.20,
+                    0.10, 0.30,
+                    0.10, 0.30,
+                    0.80, 0.20,
+                    0.80, 0.30,
+                ]);
+                var pos_size = 2;
+                var pos_offset = 0;
+                var pos_count = 6;
+
+                var color = [Math.random(), Math.random(), Math.random(), 1];
+
+                gl.useProgram(prog);
+
+                attrs.a_position(positions, pos_size);
+                uniforms.u_color(color);
+
+                gl.drawArrays(gl.TRIANGLES, pos_offset, pos_count);
             }
         </script>
+        <style>
+            #background {
+                width: 100vw;
+                height: 100vh;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                position: absolute;
+            }
+            #c {
+                border: 1px solid black;
+            }
+        </style>
     </head>
     <body>
-        <div id="background" style="width: 100vw;height: 100vh;position: absolute;">
+        <div id="background">
+            <canvas id="c"></canvas>
         </div>
-        
     </body>
 </html>

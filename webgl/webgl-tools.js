@@ -4,6 +4,7 @@ import { m2 } from "./m2.js";
 import { m3 } from "./m3.js";
 import { m4 } from "./m4.js";
 import { math } from "./math/math.js";
+import { shaders } from "./shaders/shaders.js";
 import { v2 } from "./v2.js";
 import { v3 } from "./v3.js";
 import { v4 } from "./v4.js";
@@ -90,7 +91,7 @@ const webglTools = {
                     break;
                 case gl.FLOAT_VEC4:
                     out = function (val) {
-                        gl.uniform3fv(location, val);
+                        gl.uniform4fv(location, val);
                     }
                     break;
                 case gl.INT: case gl.BOOL:
@@ -187,6 +188,7 @@ const webglTools = {
         return attr;
     },
     math: math,
+    shaders: shaders,
     Mat4: m4,
     Mat3: m3,
     Mat2: m2,

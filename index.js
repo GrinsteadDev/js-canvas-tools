@@ -34,6 +34,8 @@ window.jsCanvasTools = jsCanvasTools = {
  * Numbers are rounded to a whole number/integer as a way to avoid partial frame address in canvas.
  * Make sure that it's containing element's position is set to relative!!
  */
+
+/*****************************************************************************************************
 jsCanvasTools.canvasWorker = new  function() {
     const bg = document.createElement('canvas');
     const bgCtx = bg.getContext('2d');
@@ -169,7 +171,7 @@ jsCanvasTools.canvasWorker = new  function() {
      *          userInterface,
      *          constantAnimation
      *      }
-     */
+     *//*****************************************************************************************************
     this.setFrameRate = this.setFps = function (rate) {
         if(Array.isArray(rate)) {
             fps.background = rate[0]? rnd(rate[0]) : 60;
@@ -271,3 +273,4 @@ jsCanvasTools.canvasWorker = new  function() {
 
     this.setFps(fps);
 }();
+***********************************************************************************************/
