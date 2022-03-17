@@ -1,4 +1,6 @@
-const vert = `
+const default_vert = `
+#version 100
+
 attribute vec4 a_position;
 
 void main() {
@@ -6,4 +8,4 @@ void main() {
 }
 `;
 
-export { vert };
+export { default_vert };

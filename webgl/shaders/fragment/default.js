@@ -1,4 +1,6 @@
-var frag = `
+var default_frag = `
+#version 100
+
 precision mediump float;
 
 uniform vec4 u_color;
@@ -8,4 +10,4 @@ void main() {
 }
 `;
 
-export { frag };
+export { default_frag };

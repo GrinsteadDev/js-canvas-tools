@@ -5,6 +5,7 @@ import { m3 } from "./m3.js";
 import { m4 } from "./m4.js";
 import { math } from "./math/math.js";
 import { shaders } from "./shaders/shaders.js";
+import { shapes } from "./shapes/shapes.js";
 import { v2 } from "./v2.js";
 import { v3 } from "./v3.js";
 import { v4 } from "./v4.js";
@@ -48,7 +49,7 @@ const webglTools = {
         gl.linkProgram(p);
 
         if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
-            console.error('Unable to initialize program: '+gl.getProgramInfoLog());
+            console.error('Unable to initialize program: '+gl.getProgramInfoLog(p));
             return;
         }
         return p;
@@ -187,8 +188,16 @@ const webglTools = {
         }
         return attr;
     },
+    /**
+     * 
+     * @param {WebGL2RenderingContext} gl 
+     */
+    clear: function (gl) {
+        gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+    },
     math: math,
     shaders: shaders,
+    shapes: shapes,
     Mat4: m4,
     Mat3: m3,
     Mat2: m2,

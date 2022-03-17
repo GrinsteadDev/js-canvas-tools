@@ -16,7 +16,19 @@
                 c.height = c.parentElement.clientHeight;
                 var gl = c.getContext('webgl');
 
-                var prog = jsCanvasTools.webgl.createProgram(gl, jsCanvasTools.webgl.shaders.default.vertex, jsCanvasTools.webgl.shaders.default.fragment);
+                for (let i = 0; i < 200; i++){
+                    jsCanvasTools.webgl.shapes.drawRect(
+                        gl,
+                        Math.random() * c.width,
+                        Math.random() * c.height,
+                        Math.random() * c.width,
+                        Math.random() * c.height,
+                        [Math.random(), Math.random(), Math.random(), Math.random()],
+                        [Math.random(), Math.random(), Math.random(), Math.random()],
+                        10);
+                }
+
+                /* var prog = jsCanvasTools.webgl.createProgram(gl, jsCanvasTools.webgl.shaders.default.vertex, jsCanvasTools.webgl.shaders.default.fragment);
 
                 var attrs = jsCanvasTools.webgl.createAttributeSetters(gl, prog);
 
@@ -41,7 +53,8 @@
                 attrs.a_position(positions, pos_size);
                 uniforms.u_color(color);
 
-                gl.drawArrays(gl.TRIANGLES, pos_offset, pos_count);
+                gl.drawArrays(gl.TRIANGLES, pos_offset, pos_count); */
+
             }
         </script>
         <style>
