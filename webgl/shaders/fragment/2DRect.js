@@ -2,6 +2,7 @@ var Rect2D_frag = `
 #version 100
 precision mediump float;
 
+uniform vec2 u_resolution;
 uniform vec4 f_color;
 uniform vec4 b_color;
 varying float pos;

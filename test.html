@@ -14,47 +14,64 @@
                 var c = document.getElementById('c');
                 c.width = c.parentElement.clientWidth;
                 c.height = c.parentElement.clientHeight;
-                var gl = c.getContext('webgl');
+                //var gl = c.getContext('webgl');
+                var ctx = c.getContext('2d');
 
+                //window.requestAnimationFrame(function () { drawRandom(gl); });
+                window.requestAnimationFrame(function () { drawRandomCtx(ctx); });
+            }
+
+            function drawRandom(gl, lt = Date.now()) {
+                let tt = Date.now();
+                document.getElementById('fps').innerHTML = 1000 / (tt - lt);
+                lt = tt;
+
+                gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+
+                jsCanvasTools.webgl.shapes.rect.clear();
                 for (let i = 0; i < 200; i++){
-                    jsCanvasTools.webgl.shapes.drawRect(
+                    jsCanvasTools.webgl.shapes.rect.set(
                         gl,
-                        Math.random() * c.width,
-                        Math.random() * c.height,
-                        Math.random() * c.width,
-                        Math.random() * c.height,
-                        [Math.random(), Math.random(), Math.random(), Math.random()],
-                        [Math.random(), Math.random(), Math.random(), Math.random()],
-                        10);
+                        Math.random() * gl.canvas.width,
+                        Math.random() * gl.canvas.height,
+                        Math.random() * gl.canvas.width,
+                        Math.random() * gl.canvas.height,
+                        [Math.random(), Math.random(), Math.random(), 1.0],
+                        [Math.random(), Math.random(), Math.random(), 1.0],
+                        10
+                    );
                 }
+                jsCanvasTools.webgl.shapes.rect.draw(gl);
+                window.requestAnimationFrame(function () { drawRandom(gl, lt); });
+            }
 
-                /* var prog = jsCanvasTools.webgl.createProgram(gl, jsCanvasTools.webgl.shaders.default.vertex, jsCanvasTools.webgl.shaders.default.fragment);
+            function drawRandomCtx(ctx, lt = Date.now()) {
+                let tt = Date.now();
+                document.getElementById('fps').innerHTML = 1000 / (tt - lt);
+                lt = tt;
 
-                var attrs = jsCanvasTools.webgl.createAttributeSetters(gl, prog);
+                ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
+                
+                for (let i = 0; i < 200; i++){
+                    ctx.beginPath();
+                    ctx.rect(
+                        Math.random() * ctx.canvas.width,
+                        Math.random() * ctx.canvas.height,
+                        Math.random() * ctx.canvas.width,
+                        Math.random() * ctx.canvas.height
+                    );
+                    ctx.fillStyle = randomColor();
+                    ctx.strokeStyle = randomColor();
+                    ctx.lineWidth = 10;
+                    ctx.fill();
+                    ctx.stroke();
+                    //ctx.endPath();
+                }
+                window.requestAnimationFrame(function () { drawRandomCtx(ctx, lt); });
+            }
 
-                var uniforms = jsCanvasTools.webgl.createUniformSetters(gl, prog);
-
-                var positions = new Float32Array([
-                    0.10, 0.20,
-                    0.80, 0.20,
-                    0.10, 0.30,
-                    0.10, 0.30,
-                    0.80, 0.20,
-                    0.80, 0.30,
-                ]);
-                var pos_size = 2;
-                var pos_offset = 0;
-                var pos_count = 6;
-
-                var color = [Math.random(), Math.random(), Math.random(), 1];
-
-                gl.useProgram(prog);
-
-                attrs.a_position(positions, pos_size);
-                uniforms.u_color(color);
-
-                gl.drawArrays(gl.TRIANGLES, pos_offset, pos_count); */
-
+            function randomColor() {
+                return "#" + Math.floor(Math.random()*16777215).toString(16);
             }
         </script>
         <style>
@@ -66,6 +83,7 @@
                 right: 0;
                 bottom: 0;
                 position: absolute;
+                z-index: -1;
             }
             #c {
                 border: 1px solid black;
@@ -75,6 +93,9 @@
     <body>
         <div id="background">
             <canvas id="c"></canvas>
+        </div>
+        <div>
+            <h1 id="fps"></h1>
         </div>
     </body>
 </html>

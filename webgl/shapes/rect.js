@@ -20,7 +20,10 @@ const prog = {
         normalize: false,
         stride: 0,
         offset: 0,
-        count: 30
+        count: 0
+    },
+    cache: {
+        points: []
     }
 }
 
@@ -35,7 +38,7 @@ const prog = {
  * @param {number[]} borderColor 
  * @param {number} borderThickness 
  */
-function drawRect(gl, x, y, width, height, fillColor = [0.0,0.0,0.0,0.0], borderColor = [0.0,0.0,0.0,0.0], borderThickness = 0) {
+function set(gl, x, y, width, height, fillColor = [0.0,0.0,0.0,0.0], borderColor = [0.0,0.0,0.0,0.0], borderThickness = 0) {
     prog.data.type = gl.FLOAT;
 
     if (prog.fShader == null || prog.vShader == null) {
@@ -93,57 +96,75 @@ function drawRect(gl, x, y, width, height, fillColor = [0.0,0.0,0.0,0.0], border
 
     if (!prog.loaded) {
         gl.useProgram(prog.program);
+        gl.bindBuffer(gl.ARRAY_BUFFER, prog.buffer);
+        gl.enableVertexAttribArray(prog.v_a_positionLocation);
+        gl.vertexAttribPointer(prog.v_a_positionLocation, prog.data.size, prog.data.type, prog.data.normalize, prog.data.stride, prog.data.offset);
+        gl.uniform2f(prog.u_resolutionLocation, gl.canvas.width, gl.canvas.height);
+        gl.uniform4fv(prog.f_u_f_colorLocation, fillColor);
+        gl.uniform4fv(prog.f_u_b_colorLocation, borderColor);
         prog.loaded = true;
     }
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, prog.buffer);
-    gl.enableVertexAttribArray(prog.v_a_positionLocation);
-    gl.vertexAttribPointer(prog.v_a_positionLocation, prog.data.size, prog.data.type, prog.data.normalize, prog.data.stride, prog.data.offset);
+    let lx = (x / gl.canvas.width * 2) - 1,
+    ly = (y / gl.canvas.height * 2) - 1,
+    bt = borderThickness / gl.canvas.width,
+    rx = lx + (width / gl.canvas.width * 2) - 1,
+    ry = ly + (height / gl.canvas.height * 2) - 1,
+    lxb = lx - bt,
+    lyb = ly - bt,
+    rxb = rx + bt,
+    ryb = ry + bt;
 
-    gl.uniform2f(prog.u_resolutionLocation, gl.canvas.width, gl.canvas.height);
-
-    gl.uniform4fv(prog.f_u_f_colorLocation, fillColor);
-    gl.uniform4fv(prog.f_u_b_colorLocation, borderColor);
-
-    let lx = x,
-    ly = y,
-    rx = x + width,
-    ry = y + height;
-
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+    prog.cache.points.push(
         lx, ly, 0,
         rx, ly, 0,
         lx, ry, 0,
         lx, ry, 0,
         rx, ly, 0,
         rx, ry, 0,
-        lx - borderThickness, ly, 1,
-        lx - borderThickness, ry + borderThickness, 1,
+        lxb, ly, 1,
+        lxb, ryb, 1,
         lx, ly, 1,
-        lx, ry + borderThickness, 1,
-        lx - borderThickness, ry + borderThickness, 1,
+        lx, ryb, 1,
+        lxb, ryb, 1,
         lx, ly, 1,
-        lx, ry + borderThickness, 1,
+        lx, ryb, 1,
         lx, ry, 1,
-        rx + borderThickness, ry + borderThickness, 1,
+        rxb, ryb, 1,
         lx, ry, 1,
-        rx + borderThickness, ry, 1,
-        rx + borderThickness, ry + borderThickness, 1,
+        rxb, ry, 1,
+        rxb, ryb, 1,
         rx, ry, 1,
-        rx, ly - borderThickness, 1,
-        rx + borderThickness, ly - borderThickness, 1,
-        rx + borderThickness, ry, 1,
+        rx, lyb, 1,
+        rxb, lyb, 1,
+        rxb, ry, 1,
         rx, ry, 1,
-        rx + borderThickness, ly - borderThickness, 1,
+        rxb, lyb, 1,
         rx, ly, 1,
-        lx - borderThickness, ly, 1,
-        lx - borderThickness, ly - borderThickness, 1,
-        rx, ly - borderThickness, 1,
+        lxb, ly, 1,
+        lxb, lyb, 1,
+        rx, lyb, 1,
         rx, ly, 1,
-        lx - borderThickness, ly - borderThickness, 1
-    ]), gl.STATIC_DRAW);
+        lxb, lyb, 1
+    );
 
+    prog.data.count += 30;
+
+    //gl.drawArrays(gl.TRIANGLES, prog.data.offset, prog.data.count);
+}
+/**
+ * 
+ * @param {WebGL2RenderingContext} gl 
+ */
+function draw(gl){
+    //console.log(prog.cache.points);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(prog.cache.points), gl.STATIC_DRAW);
     gl.drawArrays(gl.TRIANGLES, prog.data.offset, prog.data.count);
 }
 
-export { drawRect };
+function clear(){
+    prog.data.count = 0;
+    prog.cache.points = [];
+}
+
+export { set, draw, clear };
